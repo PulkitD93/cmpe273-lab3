@@ -24,11 +24,7 @@ var circle *treemap.Map = treemap.NewWith(UInt64Comparator)
 
 func main() {
 
-	serverUrl1 := "http://localhost:3000/keys"
-	serverUrl2 := "http://localhost:3001/keys"
-	serverUrl3 := "http://localhost:3002/keys"
-
-	
+		
 	addToCircle("http://localhost:3000/keys")
 	addToCircle("http://localhost:3001/keys")
 	addToCircle("http://localhost:3002/keys")
@@ -36,7 +32,6 @@ func main() {
 	mux := httprouter.New()
 	mux.PUT("/keys/:key_id/:value", storeKeyValue)
 	mux.GET("/keys/:key_id", getKeyValue)
-	mux.GET("/keys", getAllKeys)
 	server := http.Server{
 		Addr:    "0.0.0.0:8080",
 		Handler: mux,
@@ -140,7 +135,7 @@ func getKeyValue(rw http.ResponseWriter, req *http.Request, p httprouter.Params)
 	key := p.ByName("key_id")
 	url := getURLGet(key)
 
-	gkvr := GetKeyValueRes{}
+	gkvr := KeyValue{}
 	client := &http.Client{}
 	response, err := client.Get(url)
 
